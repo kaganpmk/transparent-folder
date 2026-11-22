@@ -10,10 +10,13 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
 
 ### Quick Installation (No Coding or .NET Required)
 
-1. **[Download TransparentFolder-v1.0.0-win-x64.zip](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64.zip)** (or browse all versions on the [Releases](../../releases) page).
+1. Choose one of the two packages below (or browse all versions on the [Releases](../../releases) page):
+   - **[Download Standalone (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Download this if `.NET 8` is not installed on your PC or if you're not sure.**
+   - **[Download Lite (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Download this smaller package if you already have [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) installed.**
 2. Extract the ZIP archive into a permanent folder you want to keep (for example, `Documents\TransparentFolder`).
 3. Double-click **`TransparentFolder.exe`** — that's it!
-   - No `.NET` runtime installation is required (self-contained `win-x64` build).
+   - Both packages ship as a clean single-file `TransparentFolder.exe` (with `web\` assets alongside it).
+   - **Standalone** requires no `.NET` installation (self-contained `win-x64`). **Lite** uses your system's `.NET 8 Desktop Runtime`.
    - Microsoft Edge WebView2 Runtime comes pre-installed on Windows 11.
    - Runs quietly in the background (no taskbar clutter or system tray icon) and starts automatically with Windows.
 4. Right-click any empty space on your Desktop → **New → Transparent Folder** (or **Cam Klasör** on Turkish Windows) to create as many folders as you need.
@@ -58,7 +61,7 @@ Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) on Windo
 .\scripts\build-release.ps1
 ```
 
-This publishes a self-contained `win-x64` build to `dist\` and creates `release\TransparentFolder-win-x64.zip`.
+This publishes both single-file `win-x64` packages (`release\TransparentFolder-win-x64-standalone.zip` and `release\TransparentFolder-win-x64-lite.zip`; pass `-Version v1.0.0` to include a version tag).
 
 ---
 
@@ -68,10 +71,13 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
 
 ### Kolay Kurulum (Kodlama veya .NET Kurulumu Gerekmez)
 
-1. **[TransparentFolder-v1.0.0-win-x64.zip İndir](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64.zip)** (veya tüm sürümler için [Releases](../../releases) sayfasına göz at).
+1. İhtiyacına göre aşağıdaki iki paketten birini seç (veya tüm sürümler için [Releases](../../releases) sayfasına göz at):
+   - **[Standalone İndir (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Bilgisayarında `.NET 8` kurulu değilse veya emin değilsen bunu indir.**
+   - **[Lite İndir (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Bilgisayarında [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) zaten kuruluysa boşuna fazla indirme, bunu indir.**
 2. ZIP dosyasını silmeyeceğin kalıcı bir klasöre çıkar (örneğin `Belgeler\TransparentFolder`).
 3. **`TransparentFolder.exe`** dosyasına çift tıkla — kurulum bitti!
-   - `.NET` kurulumu gerekmez (self-contained `win-x64` paketi).
+   - İki paket de temiz tek-dosya `TransparentFolder.exe` (ve yanında `web\` klasörü) olarak gelir.
+   - **Standalone** sürümünde `.NET` kurulumu gerekmez (self-contained `win-x64`). **Lite** sürümü sistemdeki `.NET 8 Desktop Runtime`'ı kullanır.
    - Windows 11'de WebView2 çalışma zamanı zaten hazırdır.
    - Görev çubuğunu ve sistem tepsisini doldurmadan arka planda sessizce çalışır ve Windows açılışında otomatik başlar.
 4. Masaüstünde boş bir yere **Sağ Tık → Yeni → Cam Klasör** (İngilizce Windows'ta **Transparent Folder**) diyerek istediğin kadar klasör oluşturabilirsin.
@@ -116,7 +122,7 @@ Windows üzerinde [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 .\scripts\build-release.ps1
 ```
 
-Bu komut self-contained `win-x64` çıktısını `dist\` klasörüne derler ve `release\TransparentFolder-win-x64.zip` paketini oluşturur.
+Bu komut her iki tek-dosya `win-x64` paketini (`release\TransparentFolder-win-x64-standalone.zip` ve `release\TransparentFolder-win-x64-lite.zip`) oluşturur (sürüm etiketi eklemek için `-Version v1.0.0` parametresini kullanabilirsin).
 
 ---
 
