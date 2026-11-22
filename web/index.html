@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TransparentFolder</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app-root" data-state="collapsed">
+
+    <!-- COLLAPSED ICON VIEW (iOS/Android style mini app grid) -->
+    <div id="collapsedView" class="collapsed-view" data-i18n-title="collapsedTitle" title="Üzerinde dur: aç · Tıkla: sabitle · Sürükle: taşı">
+      <div id="folderBox" class="folder-box" data-grid="3">
+        <div id="miniGrid" class="mini-grid"></div>
+        <img id="customFolderIcon" class="custom-folder-icon" alt="" hidden />
+        <div id="dropOverlayCollapsed" class="drop-overlay-collapsed" aria-hidden="true">
+          <span>+</span>
+        </div>
+      </div>
+      <div id="folderLabel" class="folder-label"></div>
+    </div>
+
+    <!-- EXPANDED PANEL VIEW -->
+    <section id="expandedView" class="expanded-view" aria-hidden="true">
+      <header class="panel-header">
+        <div class="title-group">
+          <button id="pinBadge" class="pin-badge" type="button" data-i18n-title="pinTitleMode0" title="Sabitle">
+            <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5.5 2.5h5l-.8 4 2.3 2v1H4v-1l2.3-2-.8-4Z" />
+              <path d="M8 9.5v4" />
+            </svg>
+          </button>
+          <input id="titleInput" class="title-input" type="text" maxlength="32" data-i18n-placeholder="titlePlaceholder" data-i18n-aria="titleAria" placeholder="İsimsiz" spellcheck="false" aria-label="Klasör adı" />
+          <span id="countPill" class="count-pill">0</span>
+        </div>
+
+        <div class="header-actions">
+          <button id="btnAddFiles" class="icon-btn" type="button" data-i18n-title="addFilesTitle" title="Dosya / kısayol ekle (masaüstünden taşır)">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round">
+              <path d="M8 3v10M3 8h10" />
+            </svg>
+          </button>
+          <button id="btnSettings" class="icon-btn" type="button" data-i18n-title="settingsTitle" title="Klasör ayarları">
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="8" cy="8" r="2.2" />
+              <path d="M13.2 8a5.2 5.2 0 0 0-.08-.9l1.38-1.08-1.3-2.25-1.66.54a5.2 5.2 0 0 0-1.56-.9L9.65 1.7h-2.6l-.33 1.71a5.2 5.2 0 0 0-1.56.9l-1.66-.54-1.3 2.25L3.58 7.1a5.2 5.2 0 0 0 0 1.8L2.2 9.98l1.3 2.25 1.66-.54a5.2 5.2 0 0 0 1.56.9l.33 1.71h2.6l.33-1.71a5.2 5.2 0 0 0 1.56-.9l1.66.54 1.3-2.25-1.38-1.08c.05-.3.08-.6.08-.9Z" />
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- SETTINGS DRAWER (collapsible) -->
+      <div id="settingsDrawer" class="settings-drawer" hidden>
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="accentLabel">Aksan</span>
+          <div id="accentSwatches" class="swatch-row">
+            <button type="button" class="swatch" data-color="#a9f1fe" style="--sw:#a9f1fe" data-i18n-title="swatchIceBlue" title="Buz Mavisi"></button>
+            <button type="button" class="swatch" data-color="#f59e0b" style="--sw:#f59e0b" data-i18n-title="swatchAmber" title="Amber"></button>
+            <button type="button" class="swatch" data-color="#10b981" style="--sw:#10b981" data-i18n-title="swatchEmerald" title="Zümrüt"></button>
+            <button type="button" class="swatch" data-color="#f97316" style="--sw:#f97316" data-i18n-title="swatchOrange" title="Turuncu"></button>
+            <button type="button" class="swatch" data-color="#fb7185" style="--sw:#fb7185" data-i18n-title="swatchCoral" title="Mercan"></button>
+            <button type="button" class="swatch" data-color="#cbd5e1" style="--sw:#cbd5e1" data-i18n-title="swatchSilver" title="Gümüş"></button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="previewLabel">Önizleme</span>
+          <div class="seg-group">
+            <button type="button" class="seg-btn" data-grid="2">2×2</button>
+            <button type="button" class="seg-btn" data-grid="3">3×3</button>
+          </div>
+        </div>
+
+        <div class="setting-row">
+          <span class="setting-label" data-i18n="customIconLabel">Özel İkon</span>
+          <div class="icon-picker-actions">
+            <button id="btnPickCustomIcon" type="button" class="ghost-btn compact-btn" data-i18n="chooseIcon">İkon Seç</button>
+            <button id="btnClearCustomIcon" type="button" class="ghost-btn compact-btn" data-i18n="resetIcon" hidden>Sıfırla</button>
+          </div>
+        </div>
+
+        <div class="setting-actions">
+          <button id="btnOpenExplorer" type="button" class="ghost-btn" data-i18n="openExplorer">Explorer'da Aç</button>
+          <button id="btnDeleteFolder" type="button" class="danger-btn" data-i18n="deleteFolder">Klasörü Sil</button>
+        </div>
+
+        <div id="deleteConfirm" class="delete-confirm" hidden>
+          <span data-i18n="deleteConfirmPrompt">İçindekiler masaüstüne geri çıkarılsın mı?</span>
+          <div class="confirm-btns">
+            <button id="btnDeleteRestore" type="button" class="ghost-btn" data-i18n="deleteRestore">Geri Çıkar &amp; Sil</button>
+            <button id="btnDeleteWipe" type="button" class="danger-btn" data-i18n="deleteWipe">Hepsini Sil</button>
+            <button id="btnDeleteCancel" type="button" class="ghost-btn" data-i18n="cancel">İptal</button>
+          </div>
+        </div>
+
+        <div class="settings-divider"><span data-i18n="globalSection">GENEL</span></div>
+
+        <div class="setting-row setting-range-row">
+          <span class="setting-label" data-i18n="animDurationLabel">Animasyon Süresi</span>
+          <div class="range-wrap">
+            <input id="animDurationRange" class="range-slider" type="range" min="120" max="600" step="20" value="280" />
+            <span id="animDurationValue" class="range-val">280 ms</span>
+          </div>
+        </div>
+
+        <div class="setting-row setting-range-row">
+          <span class="setting-label" data-i18n="hoverDelayLabel">Hover Gecikmesi</span>
+          <div class="range-wrap">
+            <input id="hoverDelayRange" class="range-slider" type="range" min="150" max="900" step="50" value="450" />
+            <span id="hoverDelayValue" class="range-val">450 ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCH BAR (shown when > 8 items) -->
+      <div id="searchWrap" class="search-wrap" hidden>
+        <input id="searchInput" class="search-input" type="text" data-i18n-placeholder="searchPlaceholder" placeholder="Klasör içinde ara..." spellcheck="false" />
+      </div>
+
+      <!-- ITEMS GRID -->
+      <div id="itemsContainer" class="items-container">
+        <div id="itemsGrid" class="items-grid"></div>
+        <div id="emptyState" class="empty-state" hidden>
+          <div class="empty-icon">+</div>
+          <div class="empty-title" data-i18n="emptyTitle">Klasör boş</div>
+          <div class="empty-sub" data-i18n-html="emptySub">Masaüstündeki oyunları veya dosyaları buraya sürükleyip bırak.<br />Attığın öğeler masaüstünden bu klasöre taşınır.</div>
+        </div>
+      </div>
+
+      <!-- DROP OVERLAY (EXPANDED) -->
+      <div id="dropOverlayExpanded" class="drop-overlay-expanded" hidden>
+        <div class="drop-box">
+          <span class="drop-plus">+</span>
+          <span class="drop-text" data-i18n="dropTitle">Klasöre taşı</span>
+          <span class="drop-sub" data-i18n="dropSub">Masaüstünden gizlenip buraya eklenir</span>
+        </div>
+      </div>
+
+      <!-- FOOTER STATUS / TOAST -->
+      <footer class="panel-footer">
+        <span id="statusText" class="status-text" data-i18n="statusDefault">Sürükle bırak · Masaüstünden taşınır</span>
+        <span id="modeHint" class="mode-hint">Tıkla: sabitle</span>
+      </footer>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
