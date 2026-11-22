@@ -1,6 +1,10 @@
 # Transparent Folder (Cam Klasör)
 
-[English](#english) · [Türkçe](#türkçe)
+![Downloads](https://img.shields.io/github/downloads/kaganpmk/transparent-folder/total?style=flat-square&color=a9f1fe&labelColor=0d0f14)
+![Release](https://img.shields.io/github/v/release/kaganpmk/transparent-folder?style=flat-square&color=a9f1fe&labelColor=0d0f14)
+![License](https://img.shields.io/github/license/kaganpmk/transparent-folder?style=flat-square&color=a9f1fe&labelColor=0d0f14)
+
+[English](#english) · [Türkçe](#türkçe) · [Code Signing & Privacy Policy](#code-signing--privacy-policy)
 
 iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep your desktop tidy by grouping games, apps, shortcuts, and files inside expandable glass containers—without cluttering your screen.
 
@@ -20,6 +24,8 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
    - Microsoft Edge WebView2 Runtime comes pre-installed on Windows 11.
    - Runs quietly in the background (no taskbar clutter or system tray icon) and starts automatically with Windows.
 4. Right-click any empty space on your Desktop → **New → Transparent Folder** (or **Cam Klasör** on Turkish Windows) to create as many folders as you need.
+
+> **SmartScreen Note:** On first launch, if Windows SmartScreen appears, choose **More info → Run anyway** (**Ek bilgi → Yine de çalıştır**). This warning will disappear once open-source code signing onboarding is completed.
 
 ### Features
 
@@ -80,6 +86,8 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
    - Görev çubuğunu ve sistem tepsisini doldurmadan arka planda sessizce çalışır ve Windows açılışında otomatik başlar.
 4. Masaüstünde boş bir yere **Sağ Tık → Yeni → Cam Klasör** (İngilizce Windows'ta **Transparent Folder**) diyerek istediğin kadar klasör oluşturabilirsin.
 
+> **SmartScreen Notu:** İlk açılışta Windows SmartScreen mavi ekranı çıkarsa **Ek bilgi → Yine de çalıştır** (*More info → Run anyway*) seçin; açık kaynak kod imzalama başvurusu tamamlandığında bu uyarı kalkacaktır.
+
 ### Özellikler
 
 - **2×2 / 3×3 Önizleme veya Özel İkon:** Kapalı klasörler gerçek Windows uygulama ikonlarından oluşan `2×2` (varsayılan) veya `3×3` mini ızgara gösterir; dilersen klasöre özel ikon da seçebilirsin.
@@ -118,6 +126,16 @@ Windows üzerinde [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 ```
 
 Bu komut her iki tek-dosya `win-x64` paketini (`release\TransparentFolder-win-x64-standalone.zip` ve `release\TransparentFolder-win-x64-lite.zip`) oluşturur (sürüm etiketi eklemek için `-Version v1.0.0` parametresini kullanabilirsin).
+
+---
+
+## Code Signing & Privacy Policy
+
+Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+
+- **Privacy Policy:** Transparent Folder does not collect, store, or transmit any user data, telemetry, or analytics to external servers; all data is stored strictly locally on the device (`%LocalAppData%\TransparentFolder`). *(Uygulama hiçbir kullanıcı verisi, telemetri veya analitik toplamaz ve harici sunuculara göndermez; tüm veriler yalnızca yerel cihazda `%LocalAppData%\TransparentFolder` konumunda saklanır.)*
+- **Build Policy:** Official releases are built via GitHub Actions directly from the source code in this public repository. *(Resmi sürümler bu public repodaki kaynak koddan GitHub Actions ile üretilir.)*
+- **Team / Maintainer:** Alper Kağan Pamuk (`@kaganpmk`)
 
 ---
 
