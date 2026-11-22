@@ -192,6 +192,8 @@ internal sealed class FolderManager : ApplicationContext
         {
             SaveState();
         }
+
+        SyncOverlapAndZOrder();
     }
 
     public void CollapseOtherFolders(string activeFolderId)
@@ -202,6 +204,55 @@ internal sealed class FolderManager : ApplicationContext
             {
                 form.ForceCollapseIfOpen();
             }
+        }
+    }
+
+    public void SyncOverlapAndZOrder()
+    {
+        List<FolderForm> activeForms = _forms.Values
+            .Where(f => !f.IsDisposed && !f.IsStandby)
+            .ToList();
+
+        List<FolderForm> expandedForms = activeForms
+            .Where(f => f.IsExpanded)
+            .ToList();
+
+        List<FolderForm> collapsedForms = activeForms
+            .Where(f => !f.IsExpanded)
+            .ToList();
+
+        foreach (FolderForm expanded in expandedForms)
+        {
+            expanded.SetClickThroughOverlay(false);
+        }
+
+        foreach (FolderForm collapsed in collapsedForms)
+        {
+            Rectangle collapsedBounds = collapsed.Bounds;
+            bool intersectsAnyExpanded = expandedForms.Any(
+                expanded => expanded.Bounds.IntersectsWith(collapsedBounds));
+
+            collapsed.SetClickThroughOverlay(intersectsAnyExpanded);
+        }
+
+        foreach (FolderForm expanded in expandedForms)
+        {
+            if (expanded.PinMode == 2 && expanded.IsHandleCreated)
+            {
+                NativeMethods.SetWindowPos(
+                    expanded.Handle,
+                    NativeMethods.HWND_BOTTOM,
+                    0,
+                    0,
+                    0,
+                    0,
+                    NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOACTIVATE);
+            }
+        }
+
+        foreach (FolderForm collapsed in collapsedForms)
+        {
+            collapsed.PushToVeryBottom();
         }
     }
 

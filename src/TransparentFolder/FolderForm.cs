@@ -113,6 +113,10 @@ internal sealed class FolderForm : Form
 
     public string FolderId => _folder.Id;
 
+    public bool IsExpanded => _isExpanded;
+
+    public int PinMode => _pinMode;
+
     private bool IsPinned => _pinMode > 0;
 
     protected override bool ShowWithoutActivation => !(_isExpanded && _pinMode == 1);
@@ -155,6 +159,11 @@ internal sealed class FolderForm : Form
         if (!_isExpanded && !IsStandby)
         {
             PinToBottom();
+        }
+
+        if (!IsStandby)
+        {
+            _manager.SyncOverlapAndZOrder();
         }
     }
 
@@ -238,9 +247,43 @@ internal sealed class FolderForm : Form
         }
 
         PushFolderData();
+        _manager.SyncOverlapAndZOrder();
         if (openForRename)
         {
             OpenForRename();
+        }
+    }
+
+    public void SetClickThroughOverlay(bool passThrough)
+    {
+        if (IsStandby || IsDisposed || !IsHandleCreated)
+        {
+            return;
+        }
+
+        if (passThrough)
+        {
+            NativeMethods.SetTransparent(Handle, true);
+            PostToWeb(new { type = "host.cancelHover" });
+        }
+        else
+        {
+            NativeMethods.SetTransparent(Handle, false);
+        }
+    }
+
+    public void PushToVeryBottom()
+    {
+        if (!IsStandby && !IsDisposed && IsHandleCreated && !_isExpanded)
+        {
+            NativeMethods.SetWindowPos(
+                Handle,
+                NativeMethods.HWND_BOTTOM,
+                0,
+                0,
+                0,
+                0,
+                NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOACTIVATE);
         }
     }
 
@@ -901,6 +944,8 @@ internal sealed class FolderForm : Form
                 _webView.Focus();
             }
 
+            _manager.SyncOverlapAndZOrder();
+
             PostToWeb(new
             {
                 type = "host.state",
@@ -945,6 +990,7 @@ internal sealed class FolderForm : Form
             NativeMethods.ForceForegroundWindow(Handle);
             Activate();
             _webView.Focus();
+            _manager.SyncOverlapAndZOrder();
             PostToWeb(new
             {
                 type = "host.state",
@@ -994,6 +1040,7 @@ internal sealed class FolderForm : Form
                 Activate();
                 _webView.Focus();
                 PostPinState();
+                _manager.SyncOverlapAndZOrder();
                 break;
 
             case 2:
@@ -1008,6 +1055,7 @@ internal sealed class FolderForm : Form
                     0,
                     NativeMethods.SWP_NOMOVE | NativeMethods.SWP_NOSIZE | NativeMethods.SWP_NOACTIVATE);
                 PostPinState();
+                _manager.SyncOverlapAndZOrder();
                 break;
         }
     }
@@ -1067,6 +1115,7 @@ internal sealed class FolderForm : Form
         NativeMethods.SetNoActivate(Handle, noActivate: true);
         ApplyBoundsAndZOrder(expanded: false, pinMode: 0);
         PostToWeb(new { type = "host.collapsedReady" });
+        _manager.SyncOverlapAndZOrder();
     }
 
     private void StartWindowDrag()
@@ -1145,6 +1194,7 @@ internal sealed class FolderForm : Form
             _folder.Y = snapped.Y;
             _manager.SaveState();
             PostToWeb(new { type = "host.dragEnded" });
+            _manager.SyncOverlapAndZOrder();
             return;
         }
 
@@ -1259,6 +1309,10 @@ internal sealed class FolderForm : Form
         }
 
         PinToBottom();
+        if (_isExpanded && _pinMode == 2)
+        {
+            _manager.SyncOverlapAndZOrder();
+        }
     }
 
     private void PinToBottom()

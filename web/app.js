@@ -1073,6 +1073,11 @@
         updatePinUI();
         break;
 
+      case "host.cancelHover":
+        clearTimeout(hoverOpenTimer);
+        cancelExpandSequence();
+        break;
+
       case "host.dragOverTrash":
         els.folderBox.classList.toggle("over-trash", Boolean(msg.overTrash));
         break;

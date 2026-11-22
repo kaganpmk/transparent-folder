@@ -270,5 +270,14 @@ internal static class NativeMethods
         {
             SetWindowLong32(hWnd, GWL_EXSTYLE, ptr);
         }
+
+        SetWindowPos(
+            hWnd,
+            IntPtr.Zero,
+            0,
+            0,
+            0,
+            0,
+            SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_FRAMECHANGED);
     }
 }
