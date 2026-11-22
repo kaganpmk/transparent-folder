@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using System.Text.Json;
 using Microsoft.Win32;
 
@@ -259,25 +260,70 @@ internal static class FolderStore
         }
     }
 
+    private static readonly object WebExtractLock = new();
+    private static string? _resolvedWebDir;
+
     public static string ResolveWebDirectory()
     {
-        string baseDir = AppContext.BaseDirectory;
-        string[] candidates =
+        if (!string.IsNullOrEmpty(_resolvedWebDir))
         {
-            Path.Combine(baseDir, "web"),
-            Path.GetFullPath(Path.Combine(baseDir, "..", "web")),
-            Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "web"))
-        };
-
-        foreach (string candidate in candidates)
-        {
-            if (Directory.Exists(candidate) && File.Exists(Path.Combine(candidate, "index.html")))
-            {
-                return candidate;
-            }
+            return _resolvedWebDir;
         }
 
-        return Path.Combine(baseDir, "web");
+        lock (WebExtractLock)
+        {
+            if (!string.IsNullOrEmpty(_resolvedWebDir))
+            {
+                return _resolvedWebDir;
+            }
+
+            string baseDir = AppContext.BaseDirectory;
+            string[] candidates =
+            {
+                Path.Combine(baseDir, "web"),
+#if DEBUG
+                Path.GetFullPath(Path.Combine(baseDir, "..", "web")),
+                Path.GetFullPath(Path.Combine(baseDir, "..", "..", "..", "..", "..", "web")),
+#endif
+            };
+
+            foreach (string candidate in candidates)
+            {
+                if (Directory.Exists(candidate) && File.Exists(Path.Combine(candidate, "index.html")))
+                {
+                    _resolvedWebDir = candidate;
+                    return _resolvedWebDir;
+                }
+            }
+
+            _resolvedWebDir = ExtractEmbeddedWebAssets();
+            return _resolvedWebDir;
+        }
+    }
+
+    private static string ExtractEmbeddedWebAssets()
+    {
+        string webDir = Path.Combine(DataRoot, "web");
+        Directory.CreateDirectory(webDir);
+
+        Assembly assembly = Assembly.GetExecutingAssembly();
+        string[] files = { "index.html", "styles.css", "app.js" };
+
+        foreach (string fileName in files)
+        {
+            string resourceName = $"TransparentFolder.web.{fileName}";
+            using Stream? stream = assembly.GetManifestResourceStream(resourceName);
+            if (stream is null)
+            {
+                throw new InvalidOperationException($"Missing embedded web resource: {resourceName}");
+            }
+
+            string destPath = Path.Combine(webDir, fileName);
+            using var fileStream = new FileStream(destPath, FileMode.Create, FileAccess.Write, FileShare.Read);
+            stream.CopyTo(fileStream);
+        }
+
+        return webDir;
     }
 
     public static AppState Load()

@@ -16,10 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="..\..\web\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <Link>web\%(RecursiveDir)%(Filename)%(Extension)</Link>
-    </Content>
+    <EmbeddedResource Include="..\..\web\index.html" LogicalName="TransparentFolder.web.index.html" />
+    <EmbeddedResource Include="..\..\web\styles.css" LogicalName="TransparentFolder.web.styles.css" />
+    <EmbeddedResource Include="..\..\web\app.js" LogicalName="TransparentFolder.web.app.js" />
   </ItemGroup>
 
   <Target Name="RemoveUnusedWebView2WpfReference" BeforeTargets="ResolveAssemblyReferences">

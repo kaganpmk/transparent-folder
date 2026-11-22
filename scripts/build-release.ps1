@@ -3,9 +3,11 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 $ProjectPath = Join-Path $RepoRoot "src\TransparentFolder\TransparentFolder.csproj"
+$UninstallBatPath = Join-Path $RepoRoot "Uninstall.bat"
 $ReleaseDir = Join-Path $RepoRoot "release"
 
 $VersionTag = if ([string]::IsNullOrWhiteSpace($Version)) {
@@ -58,16 +60,36 @@ function Publish-ReleaseVariant {
         }
 
         $ExePath = Join-Path $StageDir "TransparentFolder.exe"
-        $WebIndexPath = Join-Path $StageDir "web\index.html"
         if (-not (Test-Path $ExePath)) {
             throw "Expected executable not found: $ExePath"
         }
-        if (-not (Test-Path $WebIndexPath)) {
-            throw "Expected web asset not found: $WebIndexPath"
+        if (-not (Test-Path $UninstallBatPath)) {
+            throw "Expected Uninstall.bat not found: $UninstallBatPath"
+        }
+
+        # Keep only TransparentFolder.exe + Uninstall.bat in stage (remove any stray pdb/xml/subfolders)
+        Get-ChildItem -Path $StageDir -Force | Where-Object { $_.Name -ne "TransparentFolder.exe" } | Remove-Item -Recurse -Force
+        Copy-Item -Path $UninstallBatPath -Destination (Join-Path $StageDir "Uninstall.bat") -Force
+
+        $StageFiles = @(Get-ChildItem -Path $StageDir -Recurse -File | Sort-Object Name)
+        $StageNames = @($StageFiles | ForEach-Object { $_.Name })
+        if ($StageFiles.Count -ne 2 -or $StageNames[0] -ne "TransparentFolder.exe" -or $StageNames[1] -ne "Uninstall.bat") {
+            throw "Stage directory must contain ONLY TransparentFolder.exe and Uninstall.bat. Found: $($StageNames -join ', ')"
         }
 
         Write-Host "Creating release archive: $ZipPath" -ForegroundColor Cyan
         Compress-Archive -Path (Join-Path $StageDir "*") -DestinationPath $ZipPath -Force
+
+        $Archive = [System.IO.Compression.ZipFile]::OpenRead($ZipPath)
+        try {
+            $EntryNames = @($Archive.Entries | ForEach-Object { $_.FullName } | Sort-Object)
+            if ($EntryNames.Count -ne 2 -or $EntryNames[0] -ne "TransparentFolder.exe" -or $EntryNames[1] -ne "Uninstall.bat") {
+                throw "Archive $ZipPath must contain ONLY 2 files (TransparentFolder.exe, Uninstall.bat). Found: $($EntryNames -join ', ')"
+            }
+        }
+        finally {
+            $Archive.Dispose()
+        }
 
         $ZipInfo = Get-Item $ZipPath
         $SizeMB = [Math]::Round($ZipInfo.Length / 1MB, 2)

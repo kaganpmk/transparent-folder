@@ -14,8 +14,8 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
    - **[Download Standalone (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Download this if `.NET 8` is not installed on your PC or if you're not sure.**
    - **[Download Lite (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Download this smaller package if you already have [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) installed.**
 2. Extract the ZIP archive into a permanent folder you want to keep (for example, `Documents\TransparentFolder`).
+   - Each ZIP contains **only 2 files**: `TransparentFolder.exe` and `Uninstall.bat` (all UI/web assets are embedded directly inside the `.exe`).
 3. Double-click **`TransparentFolder.exe`** — that's it!
-   - Both packages ship as a clean single-file `TransparentFolder.exe` (with `web\` assets alongside it).
    - **Standalone** requires no `.NET` installation (self-contained `win-x64`). **Lite** uses your system's `.NET 8 Desktop Runtime`.
    - Microsoft Edge WebView2 Runtime comes pre-installed on Windows 11.
    - Runs quietly in the background (no taskbar clutter or system tray icon) and starts automatically with Windows.
@@ -44,10 +44,7 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
 
 To remove startup registration, the right-click **New → Transparent Folder** menu entry, and stop any running instance:
 
-1. Press `Win + R` (or open a terminal in the folder where you extracted the app) and run:
-   ```powershell
-   "C:\path\to\TransparentFolder\TransparentFolder.exe" --uninstall
-   ```
+1. Simply double-click **`Uninstall.bat`** inside your `TransparentFolder` folder (or alternatively run `"C:\path\to\TransparentFolder\TransparentFolder.exe" --uninstall`).
 2. Delete the `TransparentFolder` folder.
    - *(Optional)* Your folder data and vault files are stored in `%LOCALAPPDATA%\TransparentFolder\`.
 
@@ -75,8 +72,8 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
    - **[Standalone İndir (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Bilgisayarında `.NET 8` kurulu değilse veya emin değilsen bunu indir.**
    - **[Lite İndir (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Bilgisayarında [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) zaten kuruluysa boşuna fazla indirme, bunu indir.**
 2. ZIP dosyasını silmeyeceğin kalıcı bir klasöre çıkar (örneğin `Belgeler\TransparentFolder`).
+   - Her iki ZIP de **sadece 2 dosya** içerir: `TransparentFolder.exe` ve `Uninstall.bat` (arayüz/web dosyaları doğrudan `.exe` içine gömülüdür).
 3. **`TransparentFolder.exe`** dosyasına çift tıkla — kurulum bitti!
-   - İki paket de temiz tek-dosya `TransparentFolder.exe` (ve yanında `web\` klasörü) olarak gelir.
    - **Standalone** sürümünde `.NET` kurulumu gerekmez (self-contained `win-x64`). **Lite** sürümü sistemdeki `.NET 8 Desktop Runtime`'ı kullanır.
    - Windows 11'de WebView2 çalışma zamanı zaten hazırdır.
    - Görev çubuğunu ve sistem tepsisini doldurmadan arka planda sessizce çalışır ve Windows açılışında otomatik başlar.
@@ -105,11 +102,7 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
 
 Başlangıç kaydını, sağ tık **Yeni → Cam Klasör** menü girişini kaldırmak ve çalışan uygulamayı durdurmak için:
 
-1. Uygulamanın bulunduğu klasörde terminali aç (veya `Win + R` ile çalıştır) ve şu komutu yaz:
-   ```powershell
-   "C:\klasor\yolu\TransparentFolder\TransparentFolder.exe" --uninstall
-   ```
-2. Ardından `TransparentFolder` klasörünü silebilirsin.
+1. Klasör içindeki **`Uninstall.bat`** dosyasına çift tıkla ve ardından `TransparentFolder` klasörünü sil. *(Alternatif olarak terminalden `"C:\klasor\yolu\TransparentFolder\TransparentFolder.exe" --uninstall` komutunu da çalıştırabilirsin.)*
    - *(İsteğe bağlı)* Klasör verilerin ve taşınan dosyaların `%LOCALAPPDATA%\TransparentFolder\` konumunda tutulur.
 
 ### Kaynaktan Derleme
