@@ -10,7 +10,7 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
 
 ### Quick Installation (No Coding or .NET Required)
 
-1. Go to the [**Releases**](../../releases) page and download **`TransparentFolder-v1.0.0-win-x64.zip`**.
+1. **[Download TransparentFolder-v1.0.0-win-x64.zip](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64.zip)** (or browse all versions on the [Releases](../../releases) page).
 2. Extract the ZIP archive into a permanent folder you want to keep (for example, `Documents\TransparentFolder`).
 3. Double-click **`TransparentFolder.exe`** — that's it!
    - No `.NET` runtime installation is required (self-contained `win-x64` build).
@@ -50,6 +50,8 @@ To remove startup registration, the right-click **New → Transparent Folder** m
 
 ### Build from Source
 
+> *For developers who want to modify and compile the code themselves — regular users only need to download and run the ZIP above.*
+
 Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) on Windows:
 
 ```powershell
@@ -66,7 +68,7 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
 
 ### Kolay Kurulum (Kodlama veya .NET Kurulumu Gerekmez)
 
-1. Sağdaki [**Releases**](../../releases) bölümünden **`TransparentFolder-v1.0.0-win-x64.zip`** dosyasını indir.
+1. **[TransparentFolder-v1.0.0-win-x64.zip İndir](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64.zip)** (veya tüm sürümler için [Releases](../../releases) sayfasına göz at).
 2. ZIP dosyasını silmeyeceğin kalıcı bir klasöre çıkar (örneğin `Belgeler\TransparentFolder`).
 3. **`TransparentFolder.exe`** dosyasına çift tıkla — kurulum bitti!
    - `.NET` kurulumu gerekmez (self-contained `win-x64` paketi).
@@ -105,6 +107,8 @@ Başlangıç kaydını, sağ tık **Yeni → Cam Klasör** menü girişini kald�
    - *(İsteğe bağlı)* Klasör verilerin ve taşınan dosyaların `%LOCALAPPDATA%\TransparentFolder\` konumunda tutulur.
 
 ### Kaynaktan Derleme
+
+> *Yalnızca kodu değiştirip kendisi derlemek isteyen geliştiriciler içindir — normal kullanıcıların yukarıdaki ZIP dosyasını indirip çalıştırması yeterlidir.*
 
 Windows üzerinde [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) gerektirir:
 
