@@ -579,6 +579,11 @@ internal sealed class FolderForm : Form
                         string trimmedName = name.Trim();
                         if (!string.Equals(trimmedName, _folder.Name, StringComparison.Ordinal))
                         {
+                            if (_vaultWatcher is not null)
+                            {
+                                _vaultWatcher.EnableRaisingEvents = false;
+                            }
+
                             FolderStore.RenameFolderStorage(_folder, trimmedName);
                             Text = FormatWindowTitle(_folder.Name);
                             UpdateWatcherPath();
@@ -861,10 +866,14 @@ internal sealed class FolderForm : Form
                 return;
             }
 
-            if (!string.Equals(_vaultWatcher.Path, storageDir, StringComparison.OrdinalIgnoreCase))
+            if (!string.Equals(_vaultWatcher.Path, storageDir, StringComparison.Ordinal))
             {
                 _vaultWatcher.EnableRaisingEvents = false;
                 _vaultWatcher.Path = storageDir;
+                _vaultWatcher.EnableRaisingEvents = true;
+            }
+            else if (!_vaultWatcher.EnableRaisingEvents)
+            {
                 _vaultWatcher.EnableRaisingEvents = true;
             }
         }

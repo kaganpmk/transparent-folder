@@ -23,6 +23,7 @@ internal sealed class FolderManager : ApplicationContext
         }
 
         ShellNewRegistrar.EnsureRegistered();
+        ExplorerNavRegistrar.EnsureRegistered();
 
         State = FolderStore.Load();
         FolderStore.ApplyAutoStart(State.AutoStart);

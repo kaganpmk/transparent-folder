@@ -12,7 +12,7 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
 
 1. Choose one of the two packages below (or browse all versions on the [Releases](../../releases) page):
    - **[Download Standalone (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Download this if `.NET 8` is not installed on your PC or if you're not sure.**
-   - **[Download Lite (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Download this smaller package if you already have [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) installed.**
+   - **[Download Lite (`0.47 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Download this smaller package if you already have [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) installed.**
 2. Extract the ZIP archive into a permanent folder you want to keep (for example, `Documents\TransparentFolder`).
    - Each ZIP contains **only 2 files**: `TransparentFolder.exe` and `Uninstall.bat` (all UI/web assets are embedded directly inside the `.exe`).
 3. Double-click **`TransparentFolder.exe`** — that's it!
@@ -34,6 +34,7 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
   - Drag items out of an expanded folder back onto the desktop right where you drop them, or reorder items inside the folder.
 - **Drag to Recycle Bin:** Drag a folder or an item inside it to the Recycle Bin to delete safely (`FOF_ALLOWUNDO`).
 - **Native Windows Right-Click Menu:** Right-clicking any item inside a folder opens the real Windows Explorer context menu (`Open`, `Run as administrator`, `Properties`, etc.).
+- **File Explorer Sidebar Integration:** Access all your folders with their real names directly from the **Transparent Folders** (**Cam Klasörler**) node in the File Explorer navigation pane—hidden from the desktop wallpaper.
 - **Nameless Folders:** Leave the folder title empty to hide the label underneath the collapsed icon.
 - **Automatic Language Detection (EN / TR):** Automatically matches your Windows display language (English or Turkish).
 - **Per-Folder & Global Settings:**
@@ -70,7 +71,7 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
 
 1. İhtiyacına göre aşağıdaki iki paketten birini seç (veya tüm sürümler için [Releases](../../releases) sayfasına göz at):
    - **[Standalone İndir (`63.37 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-standalone.zip) — Bilgisayarında `.NET 8` kurulu değilse veya emin değilsen bunu indir.**
-   - **[Lite İndir (`0.46 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Bilgisayarında [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) zaten kuruluysa boşuna fazla indirme, bunu indir.**
+   - **[Lite İndir (`0.47 MB`)](https://github.com/kaganpmk/transparent-folder/releases/download/v1.0.0/TransparentFolder-v1.0.0-win-x64-lite.zip) — Bilgisayarında [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0) zaten kuruluysa boşuna fazla indirme, bunu indir.**
 2. ZIP dosyasını silmeyeceğin kalıcı bir klasöre çıkar (örneğin `Belgeler\TransparentFolder`).
    - Her iki ZIP de **sadece 2 dosya** içerir: `TransparentFolder.exe` ve `Uninstall.bat` (arayüz/web dosyaları doğrudan `.exe` içine gömülüdür).
 3. **`TransparentFolder.exe`** dosyasına çift tıkla — kurulum bitti!
@@ -92,6 +93,7 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
   - Klasör içindeki öğeleri sürükleyerek sırasını değiştir veya klasör dışına, masaüstünde istediğin konuma geri bırak.
 - **Çöp Kutusuna Sürükleyip Silme:** Klasörü veya içindeki bir öğeyi Geri Dönüşüm Kutusu'na sürükleyerek güvenle silebilirsin.
 - **Gerçek Windows Sağ Tık Menüsü:** Klasör içindeki öğelere sağ tıkladığında gerçek Windows sağ tık menüsü (`Aç`, `Yönetici olarak çalıştır`, `Özellikler` vb.) açılır.
+- **Dosya Gezgini Sol Menü Erişimi:** Dosya Gezgini sol menüsündeki **Cam Klasörler** (**Transparent Folders**) girişi üzerinden tüm klasörlere gerçek adlarıyla doğrudan erişebilirsin (masaüstünde ek simge göstermez).
 - **İsimsiz Klasör:** Klasör adını boş bıraktığında kapalı klasör altındaki isim etiketi otomatik gizlenir.
 - **Otomatik TR / EN Dil Desteği:** Windows sistem diline göre otomatik olarak Türkçe veya İngilizce arayüzle açılır.
 - **Klasör & Genel Ayarlar:**

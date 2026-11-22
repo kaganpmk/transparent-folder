@@ -34,6 +34,9 @@ public sealed class FolderData
     [JsonPropertyName("storagePath")]
     public string StoragePath { get; set; } = string.Empty;
 
+    [JsonPropertyName("storageDirName")]
+    public string StorageDirName { get; set; } = string.Empty;
+
     [JsonPropertyName("customIconFile")]
     public string? CustomIconFile { get; set; }
 

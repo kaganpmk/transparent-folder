@@ -83,30 +83,180 @@ internal static class FolderStore
         }
     }
 
-    public static string GetFolderVaultPath(string folderId)
-    {
-        string safeId = SanitizeId(folderId);
-        string dir = Path.Combine(VaultRoot, safeId);
-        Directory.CreateDirectory(dir);
-        return dir;
-    }
-
     public static string GetFolderStoragePath(FolderData folder)
+        => GetFolderStoragePath(folder, out _);
+
+    internal static string GetFolderStoragePath(FolderData folder, out bool migrated)
     {
-        if (!string.IsNullOrWhiteSpace(folder.StoragePath))
+        migrated = false;
+
+        string resolvedDir;
+        if (!string.IsNullOrWhiteSpace(folder.StorageDirName))
         {
-            MigrateDesktopStorageToVault(folder);
+            resolvedDir = Path.Combine(VaultRoot, folder.StorageDirName);
+            Directory.CreateDirectory(resolvedDir);
+        }
+        else
+        {
+            string legacyIdDir = Path.Combine(VaultRoot, SanitizeId(folder.Id));
+            bool legacyExists = Directory.Exists(legacyIdDir);
+            string desiredBase = !string.IsNullOrWhiteSpace(folder.Name)
+                ? SanitizeFolderName(folder.Name)
+                : (IsTurkish ? "İsimsiz" : "Unnamed");
+
+            string targetName = GetUniqueVaultDirName(
+                desiredBase,
+                currentFullPath: legacyExists ? legacyIdDir : null);
+            string targetDir = Path.Combine(VaultRoot, targetName);
+
+            if (legacyExists)
+            {
+                if (TryMoveDirectoryCaseSafe(legacyIdDir, targetDir))
+                {
+                    folder.StorageDirName = targetName;
+                    migrated = true;
+                    resolvedDir = targetDir;
+                }
+                else
+                {
+                    resolvedDir = legacyIdDir;
+                }
+            }
+            else
+            {
+                Directory.CreateDirectory(targetDir);
+                folder.StorageDirName = targetName;
+                migrated = true;
+                resolvedDir = targetDir;
+            }
         }
 
-        return GetFolderVaultPath(folder.Id);
+        if (!string.IsNullOrWhiteSpace(folder.StoragePath))
+        {
+            if (MigrateDesktopStorageToVault(folder, resolvedDir))
+            {
+                migrated = true;
+            }
+        }
+
+        return resolvedDir;
     }
 
     public static void RenameFolderStorage(FolderData folder, string newName)
     {
-        folder.Name = (newName ?? string.Empty).Trim();
+        string trimmed = (newName ?? string.Empty).Trim();
+        folder.Name = trimmed;
+
+        if (trimmed.Length == 0)
+        {
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(folder.StorageDirName))
+        {
+            GetFolderStoragePath(folder, out _);
+            return;
+        }
+
+        string currentDir = Path.Combine(VaultRoot, folder.StorageDirName);
+        bool currentExists = Directory.Exists(currentDir);
+        string desiredBase = SanitizeFolderName(trimmed);
+        string targetName = GetUniqueVaultDirName(
+            desiredBase,
+            currentFullPath: currentExists ? currentDir : null);
+        string targetDir = Path.Combine(VaultRoot, targetName);
+
+        if (string.Equals(folder.StorageDirName, targetName, StringComparison.Ordinal))
+        {
+            if (!currentExists)
+            {
+                Directory.CreateDirectory(targetDir);
+            }
+            return;
+        }
+
+        if (currentExists)
+        {
+            if (TryMoveDirectoryCaseSafe(currentDir, targetDir))
+            {
+                folder.StorageDirName = targetName;
+            }
+        }
+        else
+        {
+            Directory.CreateDirectory(targetDir);
+            folder.StorageDirName = targetName;
+        }
     }
 
-    private static bool MigrateDesktopStorageToVault(FolderData folder)
+    private static string GetUniqueVaultDirName(string desiredBase, string? currentFullPath = null)
+    {
+        string? normalizedCurrent = string.IsNullOrEmpty(currentFullPath)
+            ? null
+            : Path.GetFullPath(currentFullPath).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+        bool IsAvailable(string candidateName)
+        {
+            string candidatePath = Path.GetFullPath(Path.Combine(VaultRoot, candidateName))
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            if (normalizedCurrent is not null &&
+                string.Equals(candidatePath, normalizedCurrent, StringComparison.OrdinalIgnoreCase))
+            {
+                return true;
+            }
+
+            return !Directory.Exists(candidatePath) && !File.Exists(candidatePath);
+        }
+
+        if (IsAvailable(desiredBase))
+        {
+            return desiredBase;
+        }
+
+        for (int i = 2; i < 1000; i++)
+        {
+            string next = $"{desiredBase} ({i})";
+            if (IsAvailable(next))
+            {
+                return next;
+            }
+        }
+
+        return $"{desiredBase}_{Guid.NewGuid():N}";
+    }
+
+    private static bool TryMoveDirectoryCaseSafe(string sourceDir, string destDir)
+    {
+        try
+        {
+            string fullSource = Path.GetFullPath(sourceDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+            string fullDest = Path.GetFullPath(destDir).TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            if (string.Equals(fullSource, fullDest, StringComparison.Ordinal))
+            {
+                return true;
+            }
+
+            if (string.Equals(fullSource, fullDest, StringComparison.OrdinalIgnoreCase))
+            {
+                string parentDir = Path.GetDirectoryName(fullDest) ?? VaultRoot;
+                string tempDir = Path.Combine(parentDir, $"__rename_{Guid.NewGuid():N}");
+                Directory.Move(fullSource, tempDir);
+                Directory.Move(tempDir, fullDest);
+                return true;
+            }
+
+            Directory.Move(fullSource, fullDest);
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private static bool MigrateDesktopStorageToVault(FolderData folder, string targetVaultDir)
     {
         if (string.IsNullOrWhiteSpace(folder.StoragePath))
         {
@@ -120,7 +270,7 @@ internal static class FolderStore
             string desktopPrefix = desktopDir + Path.DirectorySeparatorChar;
             string currentPath = Path.GetFullPath(folder.StoragePath)
                 .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-            string vaultDir = Path.GetFullPath(GetFolderVaultPath(folder.Id))
+            string vaultDir = Path.GetFullPath(targetVaultDir)
                 .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
 
             if (string.Equals(currentPath, vaultDir, StringComparison.OrdinalIgnoreCase))
@@ -348,7 +498,8 @@ internal static class FolderStore
                         bool migrated = false;
                         foreach (FolderData folder in state.Folders)
                         {
-                            if (MigrateDesktopStorageToVault(folder))
+                            GetFolderStoragePath(folder, out bool folderMigrated);
+                            if (folderMigrated)
                             {
                                 migrated = true;
                             }

@@ -31,6 +31,7 @@ internal static class Program
         StopOtherProcesses("DesktopFolders");
         FolderStore.ApplyAutoStart(false);
         ShellNewRegistrar.Unregister();
+        ExplorerNavRegistrar.Unregister();
     }
 
     private static void StopOtherProcesses(string processName)
