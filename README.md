@@ -4,7 +4,7 @@
 ![Release](https://img.shields.io/github/v/release/kaganpmk/transparent-folder?style=flat-square&color=a9f1fe&labelColor=0d0f14)
 ![License](https://img.shields.io/github/license/kaganpmk/transparent-folder?style=flat-square&color=a9f1fe&labelColor=0d0f14)
 
-[English](#english) · [Türkçe](#türkçe) · [Code Signing & Privacy Policy](#code-signing--privacy-policy)
+[English](#english) · [Türkçe](#türkçe) · [Privacy & Build Policy](#privacy--build-policy)
 
 iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep your desktop tidy by grouping games, apps, shortcuts, and files inside expandable glass containers—without cluttering your screen.
 
@@ -25,7 +25,7 @@ iOS/Android-style translucent dark-glass desktop folders for Windows 11. Keep yo
    - Runs quietly in the background (no taskbar clutter or system tray icon) and starts automatically with Windows.
 4. Right-click any empty space on your Desktop → **New → Transparent Folder** (or **Cam Klasör** on Turkish Windows) to create as many folders as you need.
 
-> **SmartScreen Note:** On first launch, if Windows SmartScreen appears, choose **More info → Run anyway** (**Ek bilgi → Yine de çalıştır**). This warning will disappear once open-source code signing onboarding is completed.
+> **SmartScreen Note:** On first launch, if Windows SmartScreen appears, choose **More info → Run anyway** (**Ek bilgi → Yine de çalıştır**). Because this app is not yet signed with a digital certificate, this warning is normal on first launch; all source code is open and built via GitHub Actions.
 
 ### Features
 
@@ -86,7 +86,7 @@ Windows 11 masaüstü için iOS/Android tarzı yarı saydam koyu cam masaüstü 
    - Görev çubuğunu ve sistem tepsisini doldurmadan arka planda sessizce çalışır ve Windows açılışında otomatik başlar.
 4. Masaüstünde boş bir yere **Sağ Tık → Yeni → Cam Klasör** (İngilizce Windows'ta **Transparent Folder**) diyerek istediğin kadar klasör oluşturabilirsin.
 
-> **SmartScreen Notu:** İlk açılışta Windows SmartScreen mavi ekranı çıkarsa **Ek bilgi → Yine de çalıştır** (*More info → Run anyway*) seçin; açık kaynak kod imzalama başvurusu tamamlandığında bu uyarı kalkacaktır.
+> **SmartScreen Notu:** İlk açılışta Windows SmartScreen mavi ekranı çıkarsa **Ek bilgi → Yine de çalıştır** (*More info → Run anyway*) seçin. Bu uygulama henüz dijital sertifikayla imzalanmadığı için ilk açılışta bu uyarı normaldir; tüm kaynak kodu açıktır ve GitHub Actions ile derlenir.
 
 ### Özellikler
 
@@ -129,9 +129,7 @@ Bu komut her iki tek-dosya `win-x64` paketini (`release\TransparentFolder-win-x6
 
 ---
 
-## Code Signing & Privacy Policy
-
-Free code signing provided by [SignPath.io](https://signpath.io/), certificate by [SignPath Foundation](https://signpath.org/).
+## Privacy & Build Policy
 
 - **Privacy Policy:** Transparent Folder does not collect, store, or transmit any user data, telemetry, or analytics to external servers; all data is stored strictly locally on the device (`%LocalAppData%\TransparentFolder`). *(Uygulama hiçbir kullanıcı verisi, telemetri veya analitik toplamaz ve harici sunuculara göndermez; tüm veriler yalnızca yerel cihazda `%LocalAppData%\TransparentFolder` konumunda saklanır.)*
 - **Build Policy:** Official releases are built via GitHub Actions directly from the source code in this public repository. *(Resmi sürümler bu public repodaki kaynak koddan GitHub Actions ile üretilir.)*
